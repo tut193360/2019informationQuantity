@@ -100,8 +100,8 @@ public class Frequencer implements FrequencerInterface {
 				for (int j = 1; j < (n - i); j++) {
 					if (suffixCompare(suffixArray[j - 1], suffixArray[j]) == 1) {
 						int temp = suffixArray[j - 1];
-					suffixArray[j - 1] = suffixArray[j];
-					suffixArray[j] = temp;
+						suffixArray[j - 1] = suffixArray[j];
+						suffixArray[j] = temp;
 				}
 			}
 		}
@@ -135,9 +135,9 @@ public class Frequencer implements FrequencerInterface {
 		* break; } } if(abort == false) { count++; } }
 		*/
 		int first = subByteStartIndex(start, end);
-		System.out.println(first);
+		//System.out.println(first);
 		int last = subByteEndIndex(start, end);
-		System.out.println(last);
+		//System.out.println(last);
 		return last - first;
 	}
 	// 変更してはいけないコードはここまで。
