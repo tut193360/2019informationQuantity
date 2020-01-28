@@ -96,7 +96,7 @@ public class Frequencer implements FrequencerInterface {
 			// ここに、int suffixArrayをソートするコードを書け。
 			// 順番はsuffixCompareで定義されるものとする。
 			int n = suffixArray.length;
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) { //クイックソート適用
 				for (int j = 1; j < (n - i); j++) {
 					if (suffixCompare(suffixArray[j - 1], suffixArray[j]) == 1) {
 						int temp = suffixArray[j - 1];
@@ -226,7 +226,7 @@ public class Frequencer implements FrequencerInterface {
 		// ここにコードを記述せよ
 		//
 
-		for (int i = suffixArray.length - 1; i > 0; i--) {
+		for (int i = suffixArray.length - 1; i >= 0; i--) { //二部探索に変更予定
 			if (targetCompare(suffixArray[i], start, end) == 0) {
 				return i + 1;
 			}
