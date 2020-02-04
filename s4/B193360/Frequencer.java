@@ -23,6 +23,7 @@ public class Frequencer implements FrequencerInterface {
 	byte[] mySpace;
 	boolean targetReady = false;
 	boolean spaceReady = false;
+	
 
 	int[] suffixArray; // Suffix Arrayの実装に使うデータの型をint []とせよ。
 
@@ -134,10 +135,17 @@ public class Frequencer implements FrequencerInterface {
 		* start); i++) { if(myTarget[start+i] != mySpace[offset+i]) { abort = true;
 		* break; } } if(abort == false) { count++; } }
 		*/
+		/*
+		System.out.println("***********************");
+		for(int i = 0;i < suffixArray.length;i++){
+			System.out.println(targetCompare(suffixArray[i],start,end));
+		}
+		*/
 		int first = subByteStartIndex(start, end);
 		//System.out.println(first);
 		int last = subByteEndIndex(start, end);
 		//System.out.println(last);
+
 		return last - first;
 	}
 	// 変更してはいけないコードはここまで。
@@ -171,14 +179,15 @@ public class Frequencer implements FrequencerInterface {
 		// ここに比較のコードを書け
 		//
 
-		for (int l = 0; l < target_i_k.length; l++) {
-			if (suffix_i.length < l + 1 || suffix_i[l] > target_i_k[l]) {
+		for (int l = 0; l < target_i_k.length && l < suffix_i.length; l++) {
+			if ( suffix_i[l] > target_i_k[l]) {
 				return 1;
 			} else if (suffix_i[l] < target_i_k[l]) {
 				return -1;
 			}
 		}
-
+		if (suffix_i.length < target_i_k.length)
+			return -1;
 		return 0;
 	}
 
@@ -199,14 +208,23 @@ public class Frequencer implements FrequencerInterface {
 		//
 		// ここにコードを記述せよ。
 		//
+		/*
 		for (int i = 0; i < suffixArray.length; i++) {
 			if (targetCompare(suffixArray[i], start, end) == 0) {
 				return i;
 			}
 
 		}
+		*/
+		int p = BinarySearch(start, end);
+		if(p == -1) return suffixArray.length;
 
-		return -1;
+		while(0 < p){
+			if(targetCompare(suffixArray[--p], start, end) == -1) {
+				return p + 1;
+			}
+		}
+		return 0;
 	}
 
 	private int subByteEndIndex(int start, int end) {
@@ -226,15 +244,44 @@ public class Frequencer implements FrequencerInterface {
 		// ここにコードを記述せよ
 		//
 
+/*
 		for (int i = suffixArray.length - 1; i >= 0; i--) { //二部探索に変更予定
 			if (targetCompare(suffixArray[i], start, end) == 0) {
 				return i + 1;
 			}
 
 		}
+*/
 
+		int p = BinarySearch(start, end);
+		if(p == -1) return suffixArray.length;
+
+		while(p < suffixArray.length) {
+			if(targetCompare(suffixArray[p++], start, end) == 1) {
+				return p - 1;
+			}
+		}
+
+		return suffixArray.length;
+	}
+
+	private int BinarySearch (int start, int end) {
+		int right = suffixArray.length;
+		int left = 0;
+
+		while(left < right) {
+			int mid = (left + right) / 2;
+			if (targetCompare(suffixArray[mid], start, end) == 0) {
+				return mid;
+			} else if (targetCompare(suffixArray[mid], start, end) == 1) {
+				right = mid;
+			} else {
+				left = mid + 1; 
+			}
+		}
 		return -1;
 	}
+
 
 	// Suffix Arrayを使ったプログラムのホワイトテストは、
 	// privateなメソッドとフィールドをアクセスすることが必要なので、
