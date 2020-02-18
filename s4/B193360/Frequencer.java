@@ -220,7 +220,7 @@ public class Frequencer implements FrequencerInterface {
 		if(p == -1) return suffixArray.length;
 
 		while(0 < p){
-			if(targetCompare(suffixArray[--p], start, end) == -1) {
+			if(targetCompare(suffixArray[--p], start, end) == -1) {//二部探索に変更する
 				return p + 1;
 			}
 		}
